@@ -1,0 +1,49 @@
+body{
+
+}
+header nav ul{
+list-style: none;
+margin: 0;
+align-items: baseline;
+padding: 5px;
+display: flex;
+flex-direction: column;
+background-color: #ffffff;
+width: 300px;
+height: 400px;
+}
+header nav a{
+display: flex;
+text-decoration: none;
+color: #333;
+align-items: center;
+}
+header nav img{
+width: 40px;
+height: 40px;
+margin-right: 10px;
+}
+header nav ul li{
+margin-right: 20px;
+}
+
+/* welcoming speech */
+.welcome{
+background-color: rgb(245, 237, 227);
+width: 100%;
+height: 600px;
+top: -433px;
+left: 0;
+position: relative;
+margin-left: 210px;
+}
+.headingup{
+background-color: rgb(4, 4, 97);
+}
+.headingup h1{
+color: rgb(255, 255, 255);
+margin-left: 350px;
+}
+.topwelcome{
+font-size: 20px;
+}
