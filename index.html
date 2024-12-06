@@ -3,60 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my to-do-list</title>
-    <link rel="stylesheet" href="index.css">
-   <script src="index.js"></script>
+    <title>Flourish-CR To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border: 5px solid rgb(56, 56, 201);
+            border-radius: 10px;
+            padding: 40px;
+            width: 500px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: blue;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+        img{
+            width: 300px;
+            height: 300px;
+        }
+        .button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            margin: 5px;
+            width: auto; 
+            border-radius: 5px;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+        .task-container {
+            margin-top: 20px;
+            border: 2px solid blue;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .task {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #333;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        .task:hover {
+            border-color: blue;
+        }
+        .logout-button {
+            background-color: red;
+        }
+        .logout-button:hover {
+            background-color: green;
+        }
+        .submit-button {
+            background-color: red;
+        }
+        .submit-button:hover {
+            background-color: #003366; 
+        }
+        p {
+            color: black; 
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <p>Flourish-list</p>
-                <li><a href="index.html"><img src="home.png" alt="home">Home</a></li>
-                <li><a href="about.html"><img src="about.png" alt="about">About</a></li>
-                <li><a href="contact.html"><img src="contact.png" alt="contact">Contact us</a></li>
-                <li><a href="feedback.html"><img src="feedback.png" alt="feedback">Feedback</a></li>
-                <li><a href="settings.html"><img src="settings.png" alt="setting">setting</a></li>
-                <li><a href="#"><img src="logout.png" alt="logout">logout</a></li>            </ul>
-        </nav>
-    </header>
+    <div class="container">
+        <h1>Welcome to Flourish List</h1>
+        <p>
+            This to do list helps you to organise your time based on the most important things in your life 
+            as a result to make you a better person tomorrow through discipline and hard work.
+        </p>
+        
+        <div id="notification">
+            <p>Have an account? <button class="button" onclick="showLogin()">Login</button></p>
+            <p>Do not have an account? <button class="button" onclick="showRegistration()">Register</button></p>
+        </div>
 
-    <!-- welcoming speech -->
-    <div class="welcome">
-<div class="headingup">
-<h1>Flourish-list</h1>
-</div>
-<p class="topwelcome">Welcome to flourish list</p>
-<p class="mainwelcome">This to do list helps you to organise your time based on the most importank things in your life as a result to make you a better person tomorrow through decipline and hardwork</p>
-  <p>Enjoy</p> 
+        <div id="registration" class="hidden form-container">
+            <h2>Register</h2>
+            <input type="text" id="regName" placeholder="Name" required>
+            <input type="email" id="regEmail" placeholder="Email" required>
+            <input type="password" id="regPassword" placeholder="Password" required>
+            <button class="button submit-button" onclick="register()">Submit</button>
+        </div>
 
-<!-- option to create an accout -->
-  <div class="options">
-     <!-- registeration form -->
-    <p>Don't have an account?</p>
-   <button id="register-btn">Register</button>
-    <form id="registeration-form" style="display: none;">
-<label for="name">Name</label>
-<input type="text" id="name" name="name">
-<label for="name">Email</label>
-<input type="email" id="email" name="email">
-<label for="name">Password</label>
-<input type="password" id="Password" name="Password">
-<button id="register">Register</button>
-    </form>
+        <div id="dashboard" class="hidden">
+            <h1 id="welcomeMessage"></h1>
+            <div class="task-container">
+                <input type="text" id="taskInput" placeholder="Add a new task" />
+                <button class="button" onclick="addTask()">Add Task</button>
+                <button class="button" onclick="filterTasks('all')">Show All</button>
+                <button class="button" onclick="filterTasks('completed')">Show Completed</button>
+                <button class="button" onclick="filterTasks('pending')">Show Pending</button>
+            </div>
+            <div id="taskList"></div>
+            <button class="button logout-button" onclick="logout()">Logout</button>
+        </div>
+        <img src="atodo.png" alt="list">
+    </div>
 
-<!-- login form -->
-      <p>have an account?</p>
-      <button id="login-btn">login</button>
-<form id="login-form" style="display: none;">
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name">
-    <label for="name">Email</label>
-    <input type="email" id="email" name="email">
-    <button id="login">Login</button>
-        </form>
+    <script>
+        let userName = '';
+        let tasks = [];
 
-  </div>
-</div>
+        function showLogin() {
+            alert("Login functionality is not implemented yet.");
+        }
+
+        function showRegistration() {
+            document.getElementById('registration').classList.remove('hidden');
+        }
+
+        function register() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            if (name && email && password) {
+                const savePassword = confirm("Do you want to save your email and password in Google?");
+                if (savePassword) {
+                    alert(`Registered with Email: ${email}`);
+                }
+                userName = name;
+                document.body.innerHTML = `
+                    <div class="container">
+                        <h1 id="welcomeMessage">Welcome ${userName}</h1>
+                        <div class="task-container">
+                            <input type="text" id="taskInput" placeholder="Add a new task" />
+                            <button class="button" onclick="addTask()">Add Task</button>
+                            <button class="button" onclick="filterTasks('all')">Show All</button>
+                            <button class="button" onclick="filterTasks('completed')">Show Completed</button>
+                            <button class="button" onclick="filterTasks('pending')">Show Pending</button>
+                        </div>
+                        <div id="taskList"></div>
+                        <button class="button logout-button" onclick="logout()">Logout</button>
+                    </div>
+                `;
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+            if (taskText) {
+                const task = {
+                    text: taskText,
+                    completed: false
+                };
+                tasks.push(task);
+                taskInput.value = '';
+                displayTasks();
+            } else {
+                alert("Please enter a task.");
+            }
+        }
+
+        function toggleTaskCompletion(index) {
+            tasks[index].completed = !tasks[index].completed;
+            displayTasks();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            displayTasks();
+        }
+
+        function filterTasks(status) {
+            displayTasks(status);
+        }
+
+        function displayTasks(filter = 'all') {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+
+            const filteredTasks = tasks.filter(task => {
+                if (filter === 'completed') return task.completed;
+                if (filter === 'pending') return !task.completed;
+                return true;
+            });
+
+            filteredTasks.forEach((task, index) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'task';
+                taskDiv.innerHTML = `
+                    <span style="text-decoration: ${task.completed ? 'line-through' : 'none'};">${task.text}</span>
+                    <div>
+                        <button class="button" onclick="toggleTaskCompletion(${index})">${task.completed ? 'Undo' : 'Complete'}</button>
+                        <button class="button" onclick="deleteTask(${index})">Delete</button>
+                    </div>
+                `;
+                taskList.appendChild(taskDiv);
+            });
+        }
+
+        function logout() {
+            userName = '';
+            tasks = [];
+            document.body.innerHTML = `
+                <div class="container">
+                    <h1>Welcome to Flourish List</h1>
+                    <p>
+                        This to do list helps you to organise your time based on the most important things in your life 
+                        as a result to make you a better person tomorrow through discipline and hard work.
+                    </p>
+                    <div id="notification">
+                        <p>Have an account? <button class="button" onclick="showLogin()">Login</button></p>
+                        <p>Do not have an account? <button class="button" onclick="showRegistration()">Register</button></p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
 </body>
 </html>
